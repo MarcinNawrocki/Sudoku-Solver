@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1592926571 source:c:\users\marcin\desktop\python\w³asne\sudoku\main.cpp
+	<iostream>
+	<array>
+
+1593017515 source:c:\users\marcin\desktop\python\cppprojects\sudoku\main.cpp
+	<iostream>
+	<array>
+	<algorithm>
+	<stack>
+	<set>
+	<memory>
+
