@@ -3,11 +3,25 @@
 	<iostream>
 	<array>
 
-1593017515 source:c:\users\marcin\desktop\python\cppprojects\sudoku\main.cpp
+1593187991 source:c:\users\marcin\desktop\python\cppprojects\sudoku\main.cpp
+	"Sudoku.h"
+
+1593188824 c:\users\marcin\desktop\python\cppprojects\sudoku\sudoku.h
 	<iostream>
 	<array>
+	<set>
 	<algorithm>
 	<stack>
-	<set>
+
+1593189257 source:c:\users\marcin\desktop\python\cppprojects\sudoku\sudoku.cpp
+	"Sudoku.h"
+	"Solver.h"
+
+1593189124 source:c:\users\marcin\desktop\python\cppprojects\sudoku\solver.cpp
+	"Solver.h"
+	"Sudoku.h"
+
+1593188855 c:\users\marcin\desktop\python\cppprojects\sudoku\solver.h
+	"Sudoku.h"
 	<memory>
 
