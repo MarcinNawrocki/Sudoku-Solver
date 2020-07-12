@@ -1,11 +1,11 @@
 #include "Sudoku.h"
-
+#include "Generator.h"
+//more solved sudokus: https://www.kaggle.com/bryanpark/sudoku?select=sudoku.csv (50 was taken)
 /*
 TODO:
-    - refactor existing code
-    - new class solver which inherit from Sudoku
-    - implementing sample sudoku generator (maybe with difficulty levels)
-    - user friendly menu, maybe some interfaces
+    - finish generator (add column and row permutation)
+    - error handling
+    - use solver to calculate number of possible sudoku solutions
 */
 
 
@@ -33,15 +33,22 @@ sampleContainer sample2 = {1,0,0,4,8,9,0,0,6,
 
 int main()
 {
-
+    //generate new sudoku
+    Generator gen;
+    sampleContainer sample = gen.Generate();
+    //create sudoku class
     Sudoku s (sample1);
-    s.print();
-    std::cout<<s.Solve()<<" \n";
-    s.print();
+    //check that sudoku is solved
+    std::cout<<"Solved: "<<s.Check()<<"\n";
+    //print sudoku
+    std::cout<<s;
+    //solve sudoku
+    s.Solve();
+    //print sudoku again
+    std::cout<<s;
+    //check if sudoku is properly solved
+    std::cout<<"Solved: "<<s.Check()<<"\n";
     return 0;
 }
-
-
-
 
 

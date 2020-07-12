@@ -13,7 +13,7 @@ private:
     std::stack <ModifiedCell> modifiedCells;
     Sudoku *ptr_toSudoku;
 
-    bool digitValidation(const ModifiedCell &mCell, int number);
+    bool digitValidationInCell(const ModifiedCell &mCell, int number);
     bool digitValidationInContainer(const std::array <int,9> &arr, int number);
     ModifiedCell findEmptyCell (short start_Row);
     void backToPreviousCell(ModifiedCell &workingCell, int &empty_Row);

@@ -9,7 +9,6 @@ bool Solver::Solve_backtracking(){
     int valueToInsert {1};
     while(1)
     {
-        //ptr_toSudoku->print();
         if (workingCell.searchNew)
         {
             workingCell = this->findEmptyCell(empty_Row);
@@ -23,6 +22,7 @@ bool Solver::Solve_backtracking(){
         //determine first valid number in this cell
         valueToInsert = 1;
         if (!workingCell.triedValues.empty())
+        {
             //max value is the same as size
             if (workingCell.triedValues.size() < 9)
                 valueToInsert = workingCell.triedValues.size() + 1;
@@ -31,11 +31,12 @@ bool Solver::Solve_backtracking(){
                 valueToInsert = 10;
                 backToPreviousCell(workingCell, empty_Row);
             }
+        }
 
         for (valueToInsert; valueToInsert<10; ++valueToInsert)
         {
             workingCell.triedValues.insert(valueToInsert);
-            if (digitValidation(workingCell, valueToInsert))
+            if (digitValidationInCell(workingCell, valueToInsert))
             {
                 ptr_toSudoku->modifyElement(valueToInsert, workingCell.row,  workingCell.col);
                 workingCell.searchNew = true;
@@ -65,7 +66,8 @@ bool Solver::Solve_backtracking(){
     }
 }
 
-bool Solver::digitValidation(const ModifiedCell &mCell, int number){
+//check if number can be added given Cell
+bool Solver::digitValidationInCell(const ModifiedCell &mCell, int number){
 
     bool rows_validation = digitValidationInContainer(ptr_toSudoku->rows.at(mCell.row), number);
     bool col_validation = digitValidationInContainer(ptr_toSudoku->columns.at(mCell.col), number);
@@ -73,7 +75,6 @@ bool Solver::digitValidation(const ModifiedCell &mCell, int number){
 
     return rows_validation && col_validation && sqaure_validation;
 }
-
 
 bool Solver::digitValidationInContainer(const std::array <int,9> &arr, int number){
     auto it = std::find(std::begin(arr), std::end(arr), number);
@@ -92,7 +93,6 @@ ModifiedCell Solver::findEmptyCell (short start_Row){
         if (it != std::end(ptr_toSudoku->rows.at(start_Row)))
         {
             empty_Col = std::distance(std::begin(ptr_toSudoku->rows.at(start_Row)), it);
-            //later check for copy/move
             return ModifiedCell(start_Row, empty_Col);
             break;
         }
@@ -100,6 +100,8 @@ ModifiedCell Solver::findEmptyCell (short start_Row){
             //return cell out of range -> sudoku is done
             return ModifiedCell(9,9);
     }
+
+    //handle for possible error
 }
 
 void Solver::backToPreviousCell(ModifiedCell &workingCell, int &empty_Row){

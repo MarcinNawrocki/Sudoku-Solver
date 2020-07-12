@@ -1,10 +1,24 @@
 #include "Sudoku.h"
 #include "Solver.h"
-
+#include "Checker.h"
+#include<iostream>
 void  Sudoku::print(){
     print(Sudoku::rows);
 }
 
+std::ostream &operator<<(std::ostream &os, const Sudoku &rhs){
+
+    for (int i=0; i<9; ++i)
+    {
+        for (int j=0; j<9; ++j)
+        {
+            os<<rhs.rows.at(i).at(j)<<" ";
+        }
+        os<<"\n";
+    }
+    os<<"\n";
+    return os;
+}
 void  Sudoku::print(const uniqueContainer &s){
 
     for (int i=0; i<9; ++i)
@@ -30,6 +44,16 @@ void Sudoku::sampleToUniques(sampleContainer &s){
         }
 }
 
+void Sudoku::uniqueTouniques(uniqueContainer &s){
+    for (int row=0; row<9; ++row)
+    {
+        for (int col=0; col<9; ++col)
+        {
+            this->modifyElement(s.at(row).at(col), row,col);
+        }
+    }
+
+}
 void Sudoku::modifyElement(int elem, int row, int col){
     //insert in rows
     this->rows.at(row).at(col) = elem;
@@ -51,8 +75,33 @@ Coordinates Sudoku::getSquareCoordinates (int row, int col){
     return coord;
 }
 
+
 bool Sudoku::Solve(){
 
     Solver obj_Solver (this);
-    return obj_Solver.Solve_backtracking();
+    if (obj_Solver.Solve_backtracking())
+    {
+        this->solved = true;
+        return true;
+    }
+    else
+    {
+        this->solved = false;
+        return false;
+    }
+}
+
+bool Sudoku::Check(){
+
+    Checker obj_checker (this);
+    if (obj_checker.CheckSudoku())
+    {
+        this->checked = true;
+        return true;
+    }
+    else
+    {
+        this->checked = false;
+        return false;
+    }
 }

@@ -35,6 +35,9 @@ struct Coordinates{
 class Sudoku{
 
 friend class Solver;
+friend class Checker;
+
+friend std::ostream &operator<<(std::ostream &os, const Sudoku &rhs);
 
 private:
     //unique containers - storing arrays with unique data
@@ -44,24 +47,34 @@ private:
     uniqueContainer squares = {0};
 
     void sampleToUniques(sampleContainer &s);
+    void uniqueTouniques(uniqueContainer &s);
     void modifyElement(int elem, int row, int col);
     Coordinates getSquareCoordinates (int row, int col);
+    bool uniqueContainerValidation(uniqueContainer s);
 
 public:
+
+    bool solved{false};
+    bool checked{false};
 
     Sudoku(sampleContainer &s){
         this->sampleToUniques(s);
     };
-    //Sudoku(uniqueContainer &s) : SudokuBoard{s} {};
+
+
+    Sudoku(uniqueContainer &s){
+        this->uniqueTouniques(s);
+    };
 
     Sudoku() = default;
-    //void sampleToSudoku(sampleContainer &s);
+
 
     void print ();
     void print(const uniqueContainer &s);
 
-
+    //add method to change sudoku
     bool Solve();
+    bool Check();
 };
 
 
