@@ -1,14 +1,17 @@
 #include "Solver.h"
-#include "Sudoku.h"
+#include "SudokuHandler.h"
 
+//Solve sudoku board using backtracking method
 bool Solver::Solve_backtracking(){
+    //function variable
+    WorkingCell workingCell;        //actually modified cell
+    int empty_Row {0};              //actually modified row
+    int value_to_insert {1};        //value to insert in workingCell
 
-    //find first empty location
-    WorkingCell workingCell;
-    int empty_Row {0};
-    int value_to_insert {1};
     while(1)
     {
+        //std::cout<<*ptr_sudoku_board;
+        //find first empty location
         if (workingCell.searchNew)
         {
             workingCell = this->find_empty_cell(empty_Row);
@@ -21,17 +24,18 @@ bool Solver::Solve_backtracking(){
 
         value_to_insert = next_value_to_insert(workingCell);
 
-        //value_to_insert out of range
+        //if value_to_insert out of range we must backtracked to previous enetered cell
         if (value_to_insert > 9)
             back_to_previous_cell(workingCell, empty_Row);
 
+        //try to insert values from value_to_insert to 9
         for (value_to_insert; value_to_insert <10; ++value_to_insert)
         {
             workingCell.max_tried_value++;
             //we can insert actual value
             if (digit_validation_in_cell(workingCell, value_to_insert))
             {
-                ptr_to_sudoku->modify_element(value_to_insert, workingCell.row,  workingCell.col);
+                ptr_sudoku_board->modify_element(value_to_insert, workingCell.row,  workingCell.col);
                 workingCell.searchNew = true;
                 modifiedCells.push(workingCell);
                 break;
@@ -56,7 +60,7 @@ bool Solver::Solve_backtracking(){
     }
 }
 
-
+//Find next value from 0 to 9, which could be inserted in passed WorkingCell
 int Solver::next_value_to_insert(WorkingCell& wc){
     //get value to insert
     int next_value{ 1 };
@@ -75,16 +79,17 @@ int Solver::next_value_to_insert(WorkingCell& wc){
     return next_value;
 }
 
-//check if number can be added given Cell
+//Check if number can be added in given Cell
 bool Solver::digit_validation_in_cell(const WorkingCell& mCell, int number){
 
-    bool rows_validation = digit_validation_in_container(ptr_to_sudoku->get_row(mCell.row), number);
-    bool col_validation = digit_validation_in_container(ptr_to_sudoku->get_column(mCell.col), number);
-    bool sqaure_validation = digit_validation_in_container(ptr_to_sudoku->get_square(mCell.square), number);
+    bool rows_validation = digit_validation_in_container(ptr_sudoku_board->get_row(mCell.row), number);
+    bool col_validation = digit_validation_in_container(ptr_sudoku_board->get_column(mCell.col), number);
+    bool sqaure_validation = digit_validation_in_container(ptr_sudoku_board->get_square(mCell.square), number);
 
     return rows_validation && col_validation && sqaure_validation;
 }
 
+//Chceck if given number could be added to added unique container
 bool Solver::digit_validation_in_container(const unique_cointainer &arr, int number){
     auto it = std::find(std::begin(arr), std::end(arr), number);
     if (it == std::end(arr))
@@ -99,11 +104,11 @@ WorkingCell Solver::find_empty_cell(short start_row){
     for (start_row; start_row<9; ++start_row)
     {
         //try to find free cell in row
-        auto it = std::find(std::begin(ptr_to_sudoku->get_row(start_row)), std::end(ptr_to_sudoku->get_row(start_row)), 0);
+        auto it = std::find(std::begin(ptr_sudoku_board->get_row(start_row)), std::end(ptr_sudoku_board->get_row(start_row)), 0);
         //if is free cell in the row return it
-        if (it != std::end(ptr_to_sudoku->get_row(start_row)))
+        if (it != std::end(ptr_sudoku_board->get_row(start_row)))
         {
-            empty_Col = std::distance(std::begin(ptr_to_sudoku->get_row(start_row)), it);
+            empty_Col = std::distance(std::begin(ptr_sudoku_board->get_row(start_row)), it);
             return WorkingCell(start_row, empty_Col);
         }
     }
@@ -114,7 +119,8 @@ WorkingCell Solver::find_empty_cell(short start_row){
 
 void Solver::back_to_previous_cell(WorkingCell&workingCell, int &empty_Row){
 
-    ptr_to_sudoku->modify_element(0,modifiedCells.top().row, modifiedCells.top().col);
+    //clear last modified cell in order to proceed backtracking
+    ptr_sudoku_board->modify_element(0,modifiedCells.top().row, modifiedCells.top().col);
     workingCell = modifiedCells.top();
     modifiedCells.pop();
     workingCell.searchNew = false;

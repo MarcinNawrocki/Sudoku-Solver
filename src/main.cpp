@@ -1,12 +1,12 @@
-#include "Sudoku.h"
-#include "Generator.h"
+#include "SudokuHandler.h"
+
 //more solved sudokus: https://www.kaggle.com/bryanpark/sudoku?select=sudoku.csv (50 was taken)
 /*
 TODO:
+    - handling generated flag
     - move constructor and assignment operator for working cell struct
-    - finish generator (add column and row permutation)
     - error handling
-    - use solver to calculate number of possible sudoku solutions
+   
 */
 
 
@@ -35,10 +35,11 @@ one_dim_container sample2 = {1,0,0,4,8,9,0,0,6,
 int main()
 {
     //generate new sudoku
-    //Generator gen;
-    //one_dim_container sample = gen.Generate();
+    //one_dim_container sample = gen.generate();
     //create sudoku class
-    Sudoku s (sample2);
+    SudokuHandler s (sample2);
+    //SudokuHandler s;
+    //s.Generate();
     //check that sudoku is solved
     std::cout<<"Solved: "<<s.Check()<<"\n";
     //print sudoku

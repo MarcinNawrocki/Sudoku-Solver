@@ -1,14 +1,14 @@
-#ifndef SOLVER_H
-#define SOLVER_H
+#pragma once
 
-#include "Sudoku.h"
 #include <memory>
+
+#include "SudokuHandler.h"
 
 class Solver
 {
     //private fields
-    std::stack <WorkingCell> modifiedCells;
-    Sudoku *ptr_to_sudoku;
+    std::stack <WorkingCell> modifiedCells;                     //saving modified cells in order to perfrom backtracking
+    SudokuBoard *ptr_sudoku_board;                              //sudoku board to solve
 
     //private methods
     int next_value_to_insert(WorkingCell& wc);
@@ -21,17 +21,10 @@ class Solver
 public:
     //constructors and destructors
     Solver() = default;
-    Solver(Sudoku *ptr_s): ptr_to_sudoku(ptr_s) {};
-    virtual ~Solver()
-    {
-        ptr_to_sudoku = nullptr;
-        delete ptr_to_sudoku;
-    }
+    Solver(SudokuBoard* ptr_s)
+        : ptr_sudoku_board(ptr_s) {};
 
     //public method
     bool Solve_backtracking();
 };
 
-
-
-#endif // SOLVER_H
