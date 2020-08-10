@@ -2,7 +2,7 @@
 #include "SudokuHandler.h"
 
 //Solve sudoku board using backtracking method
-bool Solver::Solve_backtracking(){
+bool Solver::Proceed_operation(){
     //function variable
     WorkingCell workingCell;        //actually modified cell
     int empty_Row {0};              //actually modified row

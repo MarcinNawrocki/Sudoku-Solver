@@ -3,7 +3,7 @@
 
 //Function check if sudoku is correctly solved
 //It validates sudoku from pointer to Sudoku Board struct- ptr_to_sudoku, which is class member
-bool Checker::CheckSudoku(){
+bool Checker::Proceed_operation(){
 
     bool rowValidation, columnValidation, squareValidation;
     //we validate each uniqueContainer (row, column and square)

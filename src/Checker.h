@@ -1,7 +1,7 @@
 #pragma once
 #include "SudokuHandler.h"
 
-class Checker
+class Checker : public I_OneTaskClass
 {
     //private methods and fields
     bool unique_container_validation(unique_cointainer s);      
@@ -13,7 +13,7 @@ public:
     Checker(SudokuBoard* ptr_s): ptr_sudoku_board(ptr_s) {};
 
     //public method
-    bool CheckSudoku();
+    bool Proceed_operation() override;
 };
 
 

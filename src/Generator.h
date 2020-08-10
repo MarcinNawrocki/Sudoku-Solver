@@ -3,7 +3,7 @@
 
 #include<fstream>
 #include <unordered_set>
-class Generator
+class Generator : public I_OneTaskClass
 {
     //private fields
     std::ifstream file_solved;                      //file with saved, solved sudokus          
@@ -23,7 +23,7 @@ class Generator
         : ptr_sudoku_board(ptr_s) {};
 
     //public methods
-    bool Generate();
+    bool Proceed_operation() override;
     
 
 };

@@ -4,7 +4,7 @@
 
 #include "SudokuHandler.h"
 
-class Solver
+class Solver: public I_OneTaskClass
 {
     //private fields
     std::stack <WorkingCell> modifiedCells;                     //saving modified cells in order to perfrom backtracking
@@ -25,6 +25,6 @@ public:
         : ptr_sudoku_board(ptr_s) {};
 
     //public method
-    bool Solve_backtracking();
+    bool Proceed_operation() override;
 };
 
